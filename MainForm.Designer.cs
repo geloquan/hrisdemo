@@ -155,7 +155,9 @@ partial class MainForm {
         Controls.Add(panel1);
         Controls.Add(titleTabLbl);
         Controls.Add(panelTab);
-        Text = "MainForm";
+        Location = new System.Drawing.Point(22, 22);
+        Text = "MAIN";
+        Load += MainForm_Load;
         panelTab.ResumeLayout(false);
         panel4.ResumeLayout(false);
         panel3.ResumeLayout(false);

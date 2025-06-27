@@ -1,10 +1,13 @@
-﻿using WinFormsApp2.UControl;
+﻿using WinFormsApp2.Enums;
+using WinFormsApp2.Services;
+using WinFormsApp2.UControl;
 
 namespace WinFormsApp2;
 
 using WinFormsApp2;
 
 public partial class MainForm : Form {
+    public EntityUserControl employeeUc { get; private set; }
     public MainForm() {
         InitializeComponent();
     }
@@ -18,9 +21,10 @@ public partial class MainForm : Form {
         
         panelMain.Controls.Clear();
 
-        EmployeeUC employeeUc = new EmployeeUC();
-        employeeUc.Dock = DockStyle.Fill;
-        employeeUc.BackColor = Color.White; 
+        employeeUc = new EntityUserControl(EntityControl.Employee) {
+            Dock = DockStyle.Fill,
+            BackColor = Color.White,
+        };
 
         panelMain.Controls.Add(employeeUc);
     }
@@ -29,12 +33,22 @@ public partial class MainForm : Form {
         SetTitle("Department");
         
         panelMain.Controls.Clear(); 
-        EmployeeRegistrationUC employeeRegistrationUc = new EmployeeRegistrationUC();
-        panelMain.Controls.Add(employeeRegistrationUc);
-        panelMain.BackColor = Color.Brown;
+        
+        employeeUc = new EntityUserControl(EntityControl.Department) {
+            Dock = DockStyle.Fill,
+            BackColor = Color.White,
+        };
+
+        panelMain.Controls.Add(employeeUc);
     }
 
     private void ticketBtn_Click(object sender, EventArgs e) {
         
+    }
+
+    private void MainForm_Load(object sender, EventArgs e) {
+    }
+
+    private void panel3_Paint(object sender, PaintEventArgs e) {
     }
 }

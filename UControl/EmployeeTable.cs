@@ -1,35 +1,55 @@
 ﻿using WinFormsApp2.Entities;
+using WinFormsApp2.Enums;
 using WinFormsApp2.Presenter;
 using WinFormsApp2.Views;
 namespace WinFormsApp2.UControl;
 
 public partial class EmployeeTable : UserControl, IEmployeeView {
   private readonly Employee_Presenter employeePresenter;
-  public EmployeeTable() {
+  public EmployeeTable(EntityControl entityControl) {
     InitializeComponent();
+
+    switch (entityControl) {
+      case EntityControl.Employee:
+        InitEmployee();
+        break;
+      case EntityControl.Department:
+        InitDepartment();
+        break;
+      default:
+        break;
+    }
+  
+    employeePresenter = new Employee_Presenter();
+  }
+
+  private void InitEmployee() {
+    employeeDgv.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 12, FontStyle.Bold);
 
     employeeDgv.Columns.Add("Id", "ID");
     employeeDgv.Columns.Add("FullName", "Full Name");
     employeeDgv.Columns.Add("DateOfBirth", "Date of Birth");
     employeeDgv.Columns.Add("EmployeeCode", "Employee Code");
-
-    this.Load += EmployeeTable_Load;
-
-    employeePresenter = new Employee_Presenter();
+    
+    this.Load += async (sender, e) => await LoadEmployeeDataAsync();
   }
 
-  void IEmployeeView.DisplayEmployees(Models.PaginatedList<Employee> employees) {
+  private void InitDepartment() {
+    employeeDgv.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 12, FontStyle.Bold);
+
+    employeeDgv.Columns.Add("Id", "ID");
+    employeeDgv.Columns.Add("Name", "Name");
+  }
+
+  void IEmployeeView.DisplayEmployees(List<Employee> employees) {
     employeeDgv.Rows.Clear();
 
-    foreach (var emp in employees.Items) {
+    foreach (var emp in employees) {
       employeeDgv.Rows.Add(emp.Id, emp.FullName, emp.DateOfBirth, emp.EmployeeCode);
     }
   }
 
-  private async void EmployeeTable_Load(object sender, EventArgs e) {
-    await LoadDataAsync();
-  }
-  public async Task LoadDataAsync() {
+  public async Task LoadEmployeeDataAsync() {
     try {
       var list = await employeePresenter.GetEmployeesAsync();
       ((IEmployeeView)this).DisplayEmployees(list);

@@ -11,23 +11,14 @@ namespace WinFormsApp2.Services {
       _context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
-    public async Task<PaginatedList<Employee>> GetEmployeesAsync(int pageIndex = 1, int pageSize = 10) {
-      var totalCount = await GetEmployeeCountAsync();
-      var items = await GetEmployeesPagedAsync(pageIndex, pageSize);
-      return new PaginatedList<Employee>(items, totalCount, pageIndex, pageSize);
+    public async Task<List<Employee>> GetEmployeesAsync() {
+      return await _context.Employees.ToListAsync();
     }
 
     public async Task<int> GetEmployeeCountAsync() {
       return await _context.Employees.CountAsync();
     }
 
-    public async Task<List<Employee>> GetEmployeesPagedAsync(int pageIndex, int pageSize) {
-      return await _context.Employees
-          .OrderBy(e => e.Id) // Ensure deterministic pagination
-          .Skip((pageIndex - 1) * pageSize)
-          .Take(pageSize)
-          .ToListAsync();
-    }
     public async Task<Employee> GetEmployeeByIdAsync(int id) {
       return await _context.Employees
           .FirstOrDefaultAsync(e => e.Id == id);

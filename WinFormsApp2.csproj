@@ -30,7 +30,7 @@
     <Compile Update="UControl\EmployeeTable.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="EmployeeUC.cs">
+    <Compile Update="EntityUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="WinForm\EmployeeCreateForm.cs">

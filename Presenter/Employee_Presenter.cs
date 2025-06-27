@@ -7,9 +7,6 @@ namespace WinFormsApp2.Presenter {
   public class Employee_Presenter {
     private readonly IEmployeeService _employeeService;
 
-    private int _currentPage = 1;
-    private const int PageSize = 10;
-
     public Employee_Presenter() {
       var dbContext = new MyDbContext();
       _employeeService = new EmployeeService(dbContext);
@@ -19,9 +16,8 @@ namespace WinFormsApp2.Presenter {
       _employeeService = employeeService ?? throw new ArgumentNullException(nameof(employeeService));
     }
 
-    public async Task<PaginatedList<Employee>> GetEmployeesAsync(int page = 1, int pageSize = PageSize) {
-      _currentPage = page;
-      return await _employeeService.GetEmployeesAsync(page, pageSize);
+    public async Task<List<Employee>> GetEmployeesAsync() {
+      return await _employeeService.GetEmployeesAsync();
     }
 
     public async Task<Employee> GetEmployeeByIdAsync(int id) {
@@ -52,24 +48,6 @@ namespace WinFormsApp2.Presenter {
 
     public async Task<int> GetEmployeeCountAsync() {
       return await _employeeService.GetEmployeeCountAsync();
-    }
-    public async Task<List<Employee>> GetEmployeesPagedAsync(int pageIndex, int pageSize) {
-      return await _employeeService.GetEmployeesPagedAsync(pageIndex, pageSize);
-    }
-
-    public async Task<PaginatedList<Employee>> GetNextPageAsync() {
-      var currentResult = await GetEmployeesAsync(_currentPage);
-      if (!currentResult.HasNextPage)
-        return null;
-
-      return await GetEmployeesAsync(_currentPage + 1);
-    }
-
-    public async Task<PaginatedList<Employee>> GetPreviousPageAsync() {
-      if (_currentPage <= 1)
-        return null;
-
-      return await GetEmployeesAsync(_currentPage - 1);
     }
   }
 }

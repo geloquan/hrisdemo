@@ -2,7 +2,7 @@
 
 namespace WinFormsApp2;
 
-partial class EmployeeUC {
+partial class EntityUserControl {
     /// <summary> 
     /// Required designer variable.
     /// </summary>
@@ -33,7 +33,6 @@ partial class EmployeeUC {
         panelMain = new System.Windows.Forms.Panel();
         newEmployeeBtn = new System.Windows.Forms.Button();
         panelTop = new System.Windows.Forms.Panel();
-        panel2 = new System.Windows.Forms.Panel();
         panel1.SuspendLayout();
         panelTop.SuspendLayout();
         SuspendLayout();
@@ -67,7 +66,7 @@ partial class EmployeeUC {
         panelMain.Dock = System.Windows.Forms.DockStyle.Fill;
         panelMain.Location = new System.Drawing.Point(0, 154);
         panelMain.Name = "panelMain";
-        panelMain.Size = new System.Drawing.Size(988, 614);
+        panelMain.Size = new System.Drawing.Size(988, 775);
         panelMain.TabIndex = 1;
         // 
         // newEmployeeBtn
@@ -89,31 +88,20 @@ partial class EmployeeUC {
         panelTop.TabIndex = 4;
         panelTop.Visible = false;
         // 
-        // panel2
-        // 
-        panel2.BackColor = System.Drawing.SystemColors.Info;
-        panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-        panel2.Location = new System.Drawing.Point(0, 768);
-        panel2.Name = "panel2";
-        panel2.Size = new System.Drawing.Size(988, 161);
-        panel2.TabIndex = 2;
-        // 
         // EmployeeUC
         // 
         AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
         AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         BackColor = System.Drawing.SystemColors.Control;
         Controls.Add(panelMain);
-        Controls.Add(panel2);
         Controls.Add(panel1);
         Cursor = System.Windows.Forms.Cursors.Default;
+        Location = new System.Drawing.Point(22, 22);
         Size = new System.Drawing.Size(988, 929);
         panel1.ResumeLayout(false);
         panelTop.ResumeLayout(false);
         ResumeLayout(false);
     }
-
-    private System.Windows.Forms.Panel panel2;
 
     private System.Windows.Forms.Panel panel1;
     private System.Windows.Forms.Panel panelMain;

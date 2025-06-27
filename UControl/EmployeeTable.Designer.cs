@@ -28,8 +28,8 @@ partial class EmployeeTable {
   /// the contents of this method with the code editor.
   /// </summary>
   private void InitializeComponent() {
-    employeeDgv = new DataGridView();
-    ((ISupportInitialize)employeeDgv).BeginInit();
+    employeeDgv = new System.Windows.Forms.DataGridView();
+    ((System.ComponentModel.ISupportInitialize)employeeDgv).BeginInit();
     SuspendLayout();
     // 
     // employeeDgv
@@ -47,19 +47,18 @@ partial class EmployeeTable {
     employeeDgv.ReadOnly = true;
     employeeDgv.RowHeadersWidth = 62;
     employeeDgv.RowTemplate.Height = 33;
-    employeeDgv.Size = new Size(1275, 1040);
+    employeeDgv.Size = new System.Drawing.Size(1275, 1040);
     employeeDgv.TabIndex = 0;
     // 
     // EmployeeTable
     // 
-    AutoScaleDimensions = new SizeF(10F, 25F);
-    AutoScaleMode = AutoScaleMode.Font;
-    BackColor = SystemColors.Control;
+    AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
+    AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+    BackColor = System.Drawing.SystemColors.Control;
     Controls.Add(employeeDgv);
-    Location = new Point(22, 22);
-    Name = "EmployeeTable";
-    Size = new Size(1275, 1040);
-    ((ISupportInitialize)employeeDgv).EndInit();
+    Location = new System.Drawing.Point(22, 22);
+    Size = new System.Drawing.Size(1275, 1040);
+    ((System.ComponentModel.ISupportInitialize)employeeDgv).EndInit();
     ResumeLayout(false);
   }
 
