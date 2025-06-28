@@ -1,17 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using WinFormsApp2.Entities;
-using WinFormsApp2.Models;
+﻿using WinFormsApp2.Entities;
 
-namespace WinFormsApp2.Services
-{
-    public interface IEmployeeService {
-        Task<List<Employee>> GetEmployeesAsync();
-        Task<Employee> GetEmployeeByIdAsync(int id);
-        Task<Employee> CreateEmployeeAsync(Employee employee);
-        Task<Employee> UpdateEmployeeAsync(Employee employee);
-        Task<bool> DeleteEmployeeAsync(int id);
-        Task<bool> DeleteEmployeesAsync(IEnumerable<int> ids);
-        Task<int> GetEmployeeCountAsync();
-    }
+namespace WinFormsApp2.Services {
+  public interface IEmployeeService {
+    Task<List<Employee>> GetEmployeesAsync();
+    Task<Employee> GetEmployeeByIdAsync(int id);
+    Task<Employee> CreateEmployeeAsync(Employee employee, int departmentId = 0);
+    Task<Employee> UpdateEmployeeAsync(Employee employee);
+    Task<bool> DeleteEmployeeAsync(int id);
+    Task<bool> DeleteEmployeesAsync(IEnumerable<int> ids);
+    Task<int> GetEmployeeCountAsync();
+    Task<List<EmployeeView>> GetEmployeeViewAsync();
+  }
 }

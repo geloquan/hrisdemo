@@ -1,4 +1,5 @@
-﻿using WinFormsApp2.Entities;
+﻿using System.Windows.Forms;
+using WinFormsApp2.Entities;
 using WinFormsApp2.Enums;
 using WinFormsApp2.Presenter;
 using WinFormsApp2.Views;
@@ -6,6 +7,7 @@ namespace WinFormsApp2.UControl;
 
 public partial class EmployeeTable : UserControl, IEmployeeView {
   private readonly Employee_Presenter employeePresenter;
+  private readonly ContextMenuStrip employeeContextMenu = new ContextMenuStrip();
   public EmployeeTable(EntityControl entityControl) {
     InitializeComponent();
 
@@ -19,7 +21,7 @@ public partial class EmployeeTable : UserControl, IEmployeeView {
       default:
         break;
     }
-  
+
     employeePresenter = new Employee_Presenter();
   }
 
@@ -30,7 +32,11 @@ public partial class EmployeeTable : UserControl, IEmployeeView {
     employeeDgv.Columns.Add("FullName", "Full Name");
     employeeDgv.Columns.Add("DateOfBirth", "Date of Birth");
     employeeDgv.Columns.Add("EmployeeCode", "Employee Code");
-    
+    employeeDgv.Columns.Add("Department", "Department");
+    InitializeContextMenu();
+
+    employeeDgv.MouseDown += EmployeeDgv_MouseDown;
+
     this.Load += async (sender, e) => await LoadEmployeeDataAsync();
   }
 
@@ -41,17 +47,17 @@ public partial class EmployeeTable : UserControl, IEmployeeView {
     employeeDgv.Columns.Add("Name", "Name");
   }
 
-  void IEmployeeView.DisplayEmployees(List<Employee> employees) {
+  void IEmployeeView.DisplayEmployees(List<EmployeeView> employees) {
     employeeDgv.Rows.Clear();
 
     foreach (var emp in employees) {
-      employeeDgv.Rows.Add(emp.Id, emp.FullName, emp.DateOfBirth, emp.EmployeeCode);
+      employeeDgv.Rows.Add(emp.EmployeeId, emp.EmployeeFullName, emp.EmployeeDateOfBirth, emp.EmployeeGenerateCode, emp.DepartmentName ?? "NA");
     }
   }
 
   public async Task LoadEmployeeDataAsync() {
     try {
-      var list = await employeePresenter.GetEmployeesAsync();
+      var list = await employeePresenter.EmployeeViews();
       ((IEmployeeView)this).DisplayEmployees(list);
     } finally {
     }
@@ -68,6 +74,76 @@ public partial class EmployeeTable : UserControl, IEmployeeView {
 
   private void label1_Click_1(object sender, EventArgs e) {
     throw new System.NotImplementedException();
+  }
+
+  private void employeeDgv_CellContentClick_1(object sender, DataGridViewCellEventArgs e) {
+
+  }
+
+  private void InitializeContextMenu() {
+    employeeContextMenu.Items.Add("Edit", null, OnEditEmployee);
+    employeeContextMenu.Items.Add("Delete", null, null);
+    employeeDgv.ContextMenuStrip = employeeContextMenu;
+  }
+  private void OnEditEmployee(object sender, EventArgs e) {
+    DataGridViewRow row = null;
+
+    if (employeeDgv.SelectedRows.Count > 0) {
+      row = employeeDgv.SelectedRows[0];
+    }
+    else if (employeeDgv.SelectedCells.Count > 0) {
+      var cell = employeeDgv.SelectedCells[0];
+      row = employeeDgv.Rows[cell.RowIndex];
+    }
+
+    if (row != null) {
+      var id = row.Cells["Id"].Value?.ToString();
+      var fullName = row.Cells["FullName"].Value?.ToString();
+      var department = row.Cells["Department"].Value?.ToString();
+
+      MessageBox.Show(
+          $"Editing Employee:\n\nID: {id}\nName: {fullName}\nDepartment: {department}",
+          "Edit Employee",
+          MessageBoxButtons.OK,
+          MessageBoxIcon.Information
+      );
+    } else {
+      MessageBox.Show("No employee selected.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+    }
+  }
+
+  private void EmployeeDgv_MouseClick(object sender, MouseEventArgs e) {
+    if (e.Button == MouseButtons.Right) {
+      var hit = employeeDgv.HitTest(e.X, e.Y);
+      if (hit.RowIndex >= 0) {
+        employeeDgv.ClearSelection();
+        employeeDgv.Rows[hit.RowIndex].Selected = true;
+        employeeDgv.CurrentCell = employeeDgv.Rows[hit.RowIndex].Cells[0];
+      }
+    }
+  }
+  private void EmployeeDgv_MouseDown(object sender, MouseEventArgs e) {
+    if (e.Button == MouseButtons.Right) {
+      var hitTest = employeeDgv.HitTest(e.X, e.Y);
+
+      if (hitTest.Type == DataGridViewHitTestType.Cell) {
+        employeeDgv.ClearSelection();
+
+        if (employeeDgv.MultiSelect) {
+          employeeDgv.CurrentCell = employeeDgv[hitTest.ColumnIndex, hitTest.RowIndex];
+        } else {
+          employeeDgv.Rows[hitTest.RowIndex].Selected = true;
+        }
+
+        employeeDgv.ContextMenuStrip?.Show(employeeDgv, e.Location);
+      } else {
+        employeeDgv.CurrentCell = null;
+
+      }
+    } else {
+      employeeDgv.CurrentCell = null;
+
+    }
   }
 
 }

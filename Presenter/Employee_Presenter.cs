@@ -4,7 +4,7 @@ using WinFormsApp2.Models;
 using WinFormsApp2.Services;
 
 namespace WinFormsApp2.Presenter {
-  public class Employee_Presenter {
+  public class Employee_Presenter : IEmployeeService {
     private readonly IEmployeeService _employeeService;
 
     public Employee_Presenter() {
@@ -20,15 +20,19 @@ namespace WinFormsApp2.Presenter {
       return await _employeeService.GetEmployeesAsync();
     }
 
+    public async Task<List<EmployeeView>> EmployeeViews() {
+      return await _employeeService.GetEmployeeViewAsync();
+    }
+
     public async Task<Employee> GetEmployeeByIdAsync(int id) {
       return await _employeeService.GetEmployeeByIdAsync(id);
     }
 
-    public async Task<Employee> CreateEmployeeAsync(Employee employee) {
+    public async Task<Employee> CreateEmployeeAsync(Employee employee, int departmentId = 0) {
       if (employee == null)
         throw new ArgumentNullException(nameof(employee));
-
-      return await _employeeService.CreateEmployeeAsync(employee);
+       
+      return await _employeeService.CreateEmployeeAsync(employee, departmentId);
     }
 
     public async Task<Employee> UpdateEmployeeAsync(Employee employee) {
@@ -48,6 +52,10 @@ namespace WinFormsApp2.Presenter {
 
     public async Task<int> GetEmployeeCountAsync() {
       return await _employeeService.GetEmployeeCountAsync();
+    }
+
+    public Task<List<EmployeeView>> GetEmployeeViewAsync() {
+      throw new NotImplementedException();
     }
   }
 }

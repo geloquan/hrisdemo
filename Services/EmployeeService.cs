@@ -14,6 +14,9 @@ namespace WinFormsApp2.Services {
     public async Task<List<Employee>> GetEmployeesAsync() {
       return await _context.Employees.ToListAsync();
     }
+    public async Task<List<EmployeeView>> GetEmployeeViewAsync() {
+      return await _context.EmployeeViews.ToListAsync();
+    }
 
     public async Task<int> GetEmployeeCountAsync() {
       return await _context.Employees.CountAsync();
@@ -24,12 +27,23 @@ namespace WinFormsApp2.Services {
           .FirstOrDefaultAsync(e => e.Id == id);
     }
 
-    public async Task<Employee> CreateEmployeeAsync(Employee employee) {
+    public async Task<Employee> CreateEmployeeAsync(Employee employee, int departmentId = 0) {
       if (employee == null)
         throw new ArgumentNullException(nameof(employee));
 
       await _context.Employees.AddAsync(employee);
       await _context.SaveChangesAsync();
+
+
+      if (departmentId != 0) {
+        _context.EmployeeDepartments.Add(new EmployeeDepartment {
+          DepartmentId = departmentId,
+          EmployeeId = employee.Id
+        });
+
+        await _context.SaveChangesAsync();
+      }
+
       return employee;
     }
 

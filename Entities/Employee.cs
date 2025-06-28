@@ -7,6 +7,7 @@ namespace WinFormsApp2.Entities
     {
         public Employee()
         {
+            EmployeeDepartments = new HashSet<EmployeeDepartment>();
             Tickets = new HashSet<Ticket>();
         }
 
@@ -15,6 +16,7 @@ namespace WinFormsApp2.Entities
         public string EmployeeCode { get; set; } = null!;
         public DateTime DateOfBirth { get; set; }
 
+        public virtual ICollection<EmployeeDepartment> EmployeeDepartments { get; set; }
         public virtual ICollection<Ticket> Tickets { get; set; }
     }
 }
