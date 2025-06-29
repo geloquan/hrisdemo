@@ -22,9 +22,9 @@ namespace WinFormsApp2.Services {
       return await _context.Employees.CountAsync();
     }
 
-    public async Task<Employee> GetEmployeeByIdAsync(int id) {
-      return await _context.Employees
-          .FirstOrDefaultAsync(e => e.Id == id);
+    public async Task<EmployeeView> GetEmployeeByIdAsync(int id) {
+      return await _context.EmployeeViews
+          .FirstOrDefaultAsync(e => e.EmployeeId == id);
     }
 
     public async Task<Employee> CreateEmployeeAsync(Employee employee, int departmentId = 0) {

@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="EmployeeRegistrationUC.cs">
+    <Compile Update="EmployeeFormUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="MainForm.cs">
@@ -33,7 +33,7 @@
     <Compile Update="EntityUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="WinForm\EmployeeCreateForm.cs">
+    <Compile Update="WinForm\EmployeeForm.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

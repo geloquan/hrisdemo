@@ -2,7 +2,7 @@
 
 namespace WinFormsApp2;
 
-partial class EmployeeRegistrationUC {
+partial class EmployeeFormUC {
     /// <summary> 
     /// Required designer variable.
     /// </summary>
@@ -32,14 +32,14 @@ partial class EmployeeRegistrationUC {
     fullName = new TextBox();
     generatedEmployeeCode = new TextBox();
     generatedEmployeeCodeLbl = new Label();
-    employeeRegistration = new GroupBox();
+    formLbl = new GroupBox();
     departmentComboBox = new ComboBox();
     label1 = new Label();
-    button2 = new Button();
-    submitEmployeeForm = new Button();
+    resetBtn = new Button();
+    proceedLbl = new Button();
     dateOfBirth = new DateTimePicker();
     dateOfBirthLbl = new Label();
-    employeeRegistration.SuspendLayout();
+    formLbl.SuspendLayout();
     SuspendLayout();
     // 
     // fullNameLbl
@@ -81,26 +81,26 @@ partial class EmployeeRegistrationUC {
     generatedEmployeeCodeLbl.TabIndex = 2;
     generatedEmployeeCodeLbl.Text = "Generated Employee Code";
     // 
-    // employeeRegistration
+    // formLbl
     // 
-    employeeRegistration.Controls.Add(departmentComboBox);
-    employeeRegistration.Controls.Add(label1);
-    employeeRegistration.Controls.Add(button2);
-    employeeRegistration.Controls.Add(submitEmployeeForm);
-    employeeRegistration.Controls.Add(dateOfBirth);
-    employeeRegistration.Controls.Add(fullNameLbl);
-    employeeRegistration.Controls.Add(dateOfBirthLbl);
-    employeeRegistration.Controls.Add(fullName);
-    employeeRegistration.Controls.Add(generatedEmployeeCode);
-    employeeRegistration.Controls.Add(generatedEmployeeCodeLbl);
-    employeeRegistration.Location = new Point(2, 2);
-    employeeRegistration.Margin = new Padding(2);
-    employeeRegistration.Name = "employeeRegistration";
-    employeeRegistration.Padding = new Padding(2);
-    employeeRegistration.Size = new Size(370, 279);
-    employeeRegistration.TabIndex = 6;
-    employeeRegistration.TabStop = false;
-    employeeRegistration.Text = "Employee Registration";
+    formLbl.Controls.Add(departmentComboBox);
+    formLbl.Controls.Add(label1);
+    formLbl.Controls.Add(resetBtn);
+    formLbl.Controls.Add(proceedLbl);
+    formLbl.Controls.Add(dateOfBirth);
+    formLbl.Controls.Add(fullNameLbl);
+    formLbl.Controls.Add(dateOfBirthLbl);
+    formLbl.Controls.Add(fullName);
+    formLbl.Controls.Add(generatedEmployeeCode);
+    formLbl.Controls.Add(generatedEmployeeCodeLbl);
+    formLbl.Location = new Point(2, 2);
+    formLbl.Margin = new Padding(2);
+    formLbl.Name = "formLbl";
+    formLbl.Padding = new Padding(2);
+    formLbl.Size = new Size(370, 279);
+    formLbl.TabIndex = 6;
+    formLbl.TabStop = false;
+    formLbl.Text = "Form Label";
     // 
     // departmentComboBox
     // 
@@ -122,29 +122,29 @@ partial class EmployeeRegistrationUC {
     label1.Text = "Department";
     label1.Click += label1_Click;
     // 
-    // button2
+    // resetBtn
     // 
-    button2.BackColor = SystemColors.AppWorkspace;
-    button2.Location = new Point(122, 217);
-    button2.Margin = new Padding(2);
-    button2.Name = "button2";
-    button2.Size = new Size(79, 48);
-    button2.TabIndex = 7;
-    button2.Text = "Reset";
-    button2.UseVisualStyleBackColor = false;
-    button2.Click += button2_Click;
+    resetBtn.BackColor = SystemColors.AppWorkspace;
+    resetBtn.Location = new Point(122, 217);
+    resetBtn.Margin = new Padding(2);
+    resetBtn.Name = "resetBtn";
+    resetBtn.Size = new Size(79, 48);
+    resetBtn.TabIndex = 7;
+    resetBtn.Text = "reset";
+    resetBtn.UseVisualStyleBackColor = false;
+    resetBtn.Click += button2_Click;
     // 
-    // submitEmployeeForm
+    // proceedLbl
     // 
-    submitEmployeeForm.BackColor = SystemColors.ActiveCaption;
-    submitEmployeeForm.Location = new Point(205, 217);
-    submitEmployeeForm.Margin = new Padding(2);
-    submitEmployeeForm.Name = "submitEmployeeForm";
-    submitEmployeeForm.Size = new Size(140, 48);
-    submitEmployeeForm.TabIndex = 6;
-    submitEmployeeForm.Text = "Submit";
-    submitEmployeeForm.UseVisualStyleBackColor = false;
-    submitEmployeeForm.Click += submitEmployeeForm_Click;
+    proceedLbl.BackColor = SystemColors.ActiveCaption;
+    proceedLbl.Location = new Point(205, 217);
+    proceedLbl.Margin = new Padding(2);
+    proceedLbl.Name = "proceedLbl";
+    proceedLbl.Size = new Size(140, 48);
+    proceedLbl.TabIndex = 6;
+    proceedLbl.Text = "Proceed Label";
+    proceedLbl.UseVisualStyleBackColor = false;
+    proceedLbl.Click += submitEmployeeForm_Click;
     // 
     // dateOfBirth
     // 
@@ -164,25 +164,25 @@ partial class EmployeeRegistrationUC {
     dateOfBirthLbl.TabIndex = 4;
     dateOfBirthLbl.Text = "Date of Birth";
     // 
-    // EmployeeRegistrationUC
+    // EmployeeFormUC
     // 
     AutoScaleDimensions = new SizeF(7F, 15F);
     AutoScaleMode = AutoScaleMode.Font;
     AutoSize = true;
     AutoSizeMode = AutoSizeMode.GrowAndShrink;
-    Controls.Add(employeeRegistration);
+    Controls.Add(formLbl);
     Margin = new Padding(2);
-    Name = "EmployeeRegistrationUC";
+    Name = "EmployeeFormUC";
     Size = new Size(374, 283);
     Load += Form1_Load;
-    employeeRegistration.ResumeLayout(false);
-    employeeRegistration.PerformLayout();
+    formLbl.ResumeLayout(false);
+    formLbl.PerformLayout();
     ResumeLayout(false);
   }
 
-  private System.Windows.Forms.Button button2;
+  private System.Windows.Forms.Button resetBtn;
 
-    private System.Windows.Forms.Button submitEmployeeForm;
+    private System.Windows.Forms.Button proceedLbl;
 
     #endregion
 
@@ -190,7 +190,7 @@ partial class EmployeeRegistrationUC {
     private System.Windows.Forms.TextBox generatedEmployeeCode;
     private System.Windows.Forms.TextBox fullName;
     private System.Windows.Forms.Label generatedEmployeeCodeLbl;
-    private System.Windows.Forms.GroupBox employeeRegistration;
+    private System.Windows.Forms.GroupBox formLbl;
     private System.Windows.Forms.DateTimePicker dateOfBirth;
     private System.Windows.Forms.Label dateOfBirthLbl;
   private Label label1;

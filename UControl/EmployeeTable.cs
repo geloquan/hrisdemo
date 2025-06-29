@@ -3,6 +3,7 @@ using WinFormsApp2.Entities;
 using WinFormsApp2.Enums;
 using WinFormsApp2.Presenter;
 using WinFormsApp2.Views;
+using WinFormsApp2.WinForm;
 namespace WinFormsApp2.UControl;
 
 public partial class EmployeeTable : UserControl, IEmployeeView {
@@ -85,7 +86,7 @@ public partial class EmployeeTable : UserControl, IEmployeeView {
     employeeContextMenu.Items.Add("Delete", null, null);
     employeeDgv.ContextMenuStrip = employeeContextMenu;
   }
-  private void OnEditEmployee(object sender, EventArgs e) {
+  private async void OnEditEmployee(object sender, EventArgs e) {
     DataGridViewRow row = null;
 
     if (employeeDgv.SelectedRows.Count > 0) {
@@ -97,31 +98,24 @@ public partial class EmployeeTable : UserControl, IEmployeeView {
     }
 
     if (row != null) {
-      var id = row.Cells["Id"].Value?.ToString();
+      var id = Convert.ToInt32(row.Cells["Id"].Value);
       var fullName = row.Cells["FullName"].Value?.ToString();
       var department = row.Cells["Department"].Value?.ToString();
 
-      MessageBox.Show(
-          $"Editing Employee:\n\nID: {id}\nName: {fullName}\nDepartment: {department}",
-          "Edit Employee",
-          MessageBoxButtons.OK,
-          MessageBoxIcon.Information
-      );
+      var employeee = await employeePresenter.GetEmployeeByIdAsync(id);
+
+      if (employeee is not null) {
+        using (var form = new FormTitleLbl(EntityControl.Employee, Crud.Update, employeee)) {
+          form.ShowDialog(this);
+        }
+      } else {
+        MessageBox.Show("Employee not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+      }
     } else {
       MessageBox.Show("No employee selected.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
     }
   }
 
-  private void EmployeeDgv_MouseClick(object sender, MouseEventArgs e) {
-    if (e.Button == MouseButtons.Right) {
-      var hit = employeeDgv.HitTest(e.X, e.Y);
-      if (hit.RowIndex >= 0) {
-        employeeDgv.ClearSelection();
-        employeeDgv.Rows[hit.RowIndex].Selected = true;
-        employeeDgv.CurrentCell = employeeDgv.Rows[hit.RowIndex].Cells[0];
-      }
-    }
-  }
   private void EmployeeDgv_MouseDown(object sender, MouseEventArgs e) {
     if (e.Button == MouseButtons.Right) {
       var hitTest = employeeDgv.HitTest(e.X, e.Y);
@@ -136,14 +130,10 @@ public partial class EmployeeTable : UserControl, IEmployeeView {
         }
 
         employeeDgv.ContextMenuStrip?.Show(employeeDgv, e.Location);
-      } else {
-        employeeDgv.CurrentCell = null;
 
+        return;
       }
-    } else {
-      employeeDgv.CurrentCell = null;
-
-    }
+    } 
+    employeeDgv.CurrentCell = null;
   }
-
 }

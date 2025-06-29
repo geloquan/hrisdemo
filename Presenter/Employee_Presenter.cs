@@ -24,7 +24,7 @@ namespace WinFormsApp2.Presenter {
       return await _employeeService.GetEmployeeViewAsync();
     }
 
-    public async Task<Employee> GetEmployeeByIdAsync(int id) {
+    public async Task<EmployeeView> GetEmployeeByIdAsync(int id) {
       return await _employeeService.GetEmployeeByIdAsync(id);
     }
 

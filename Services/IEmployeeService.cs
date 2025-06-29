@@ -3,7 +3,7 @@
 namespace WinFormsApp2.Services {
   public interface IEmployeeService {
     Task<List<Employee>> GetEmployeesAsync();
-    Task<Employee> GetEmployeeByIdAsync(int id);
+    Task<EmployeeView> GetEmployeeByIdAsync(int id);
     Task<Employee> CreateEmployeeAsync(Employee employee, int departmentId = 0);
     Task<Employee> UpdateEmployeeAsync(Employee employee);
     Task<bool> DeleteEmployeeAsync(int id);

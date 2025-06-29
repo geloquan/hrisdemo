@@ -50,7 +50,7 @@ public partial class EntityUserControl : UserControl {
     private void createEmployeeBtn_Click(object sender, EventArgs e) {
         switch (this.entityControl) {
             case EntityControl.Employee:
-                using (var form = new EmployeeCreateForm(EntityControl.Employee)) {
+                using (var form = new FormTitleLbl(EntityControl.Employee, Crud.Create)) {
                     form.employeeRegistrationUc.EmployeeCreated += (s, args) => {
                         employeeTable.LoadEmployeeDataAsync();
                     };
@@ -59,7 +59,7 @@ public partial class EntityUserControl : UserControl {
 
                 break;
             case EntityControl.Department:
-                using (var form = new EmployeeCreateForm(EntityControl.Department)) {
+                using (var form = new FormTitleLbl(EntityControl.Department, Crud.Create)) {
                     form.employeeRegistrationUc.EmployeeCreated += (s, args) => {
                         employeeTable.LoadEmployeeDataAsync();
                     };

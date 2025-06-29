@@ -2,10 +2,11 @@
 using WinFormsApp2.Context;
 using WinFormsApp2.Presenter;
 using WinFormsApp2.Services;
+using WinFormsApp2.Enums;
 
 namespace WinFormsApp2;
 
-public partial class EmployeeRegistrationUC : UserControl {
+public partial class EmployeeFormUC : UserControl {
 
   Employee_Presenter employeePresenter = new Employee_Presenter();
   Department_Presenter Department_Presenter = new Department_Presenter();
@@ -14,22 +15,64 @@ public partial class EmployeeRegistrationUC : UserControl {
 
   public event EventHandler EmployeeCreated;
 
-  public EmployeeRegistrationUC() {
+  public EmployeeView _employee;
+  public Crud _crud;
+
+  public EmployeeFormUC(Crud crud, EmployeeView? employee = null) {
     InitializeComponent();
 
-    InitDepartment();
+    string? selectedDepartment = null;
+
+    _crud = crud;
+
+    switch (crud) {
+      case Crud.Create:
+        InitCreate();
+        break;
+      case Crud.Update:
+        selectedDepartment = InitUpdate(employee);
+        break;
+      default:
+        break;
+    }
+
+    InitDepartmentList(selectedDepartment);
+  }   
+
+  public void InitCreate() {
+    proceedLbl.Text = "Create";
+    formLbl.Text = "Register Employee";
+
   }
 
-  private async void InitDepartment() {
+  public string? InitUpdate(EmployeeView? employee) {
+    if (employee ==  null) {
+      MessageBox.Show("Employee not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+      return null;
+    }
+
+    _employee = employee;
+
+    proceedLbl.Text = "Update Employee";
+    formLbl.Text = "Update Employee Info";
+
+    fullName.Text = _employee.EmployeeFullName;
+    dateOfBirth.Value = _employee.EmployeeDateOfBirth;
+    generatedEmployeeCode.Text = _employee.EmployeeGenerateCode;
+
+    return _employee.DepartmentName;
+  }
+
+  private async void InitDepartmentList(string? selectedDepartment) {
     var departments = await Department_Presenter.GetDepartmentsAsync();
 
     departments.Insert(0, new Department { Id = 0, Name = "-- Select Department --" });
 
-    departmentComboBox.DataSource = departments.ToList();
     departmentComboBox.DisplayMember = "Name";
     departmentComboBox.ValueMember = "Id";
+    departmentComboBox.DataSource = departments;
 
-    departmentComboBox.SelectedIndex = 0;
+    departmentComboBox.SelectedIndex = Math.Max(departmentComboBox.FindString(selectedDepartment), 0);
   }
 
   private void Clear() {
@@ -74,6 +117,10 @@ public partial class EmployeeRegistrationUC : UserControl {
   }
 
   private void button2_Click(object sender, EventArgs e) {
-    this.Clear();
+    if (_crud == Crud.Create) {
+      this.Clear();
+    } else if (_crud == Crud.Update) {
+      InitDepartmentList(InitUpdate(_employee));
+    }
   }
 }
