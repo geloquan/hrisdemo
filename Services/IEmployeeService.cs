@@ -5,7 +5,7 @@ namespace WinFormsApp2.Services {
     Task<List<Employee>> GetEmployeesAsync();
     Task<EmployeeView> GetEmployeeByIdAsync(int id);
     Task<Employee> CreateEmployeeAsync(Employee employee, int departmentId = 0);
-    Task<Employee> UpdateEmployeeAsync(Employee employee);
+    Task<Employee> UpdateEmployeeAsync(Employee employee, int departmentId = 0);
     Task<bool> DeleteEmployeeAsync(int id);
     Task<bool> DeleteEmployeesAsync(IEnumerable<int> ids);
     Task<int> GetEmployeeCountAsync();

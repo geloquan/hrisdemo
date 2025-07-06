@@ -120,20 +120,14 @@ public partial class EmployeeTable : UserControl, IEmployeeView {
     if (e.Button == MouseButtons.Right) {
       var hitTest = employeeDgv.HitTest(e.X, e.Y);
 
-      if (hitTest.Type == DataGridViewHitTestType.Cell) {
+      if (hitTest.Type == DataGridViewHitTestType.Cell && hitTest.RowIndex >= 0) {
         employeeDgv.ClearSelection();
-
-        if (employeeDgv.MultiSelect) {
-          employeeDgv.CurrentCell = employeeDgv[hitTest.ColumnIndex, hitTest.RowIndex];
-        } else {
-          employeeDgv.Rows[hitTest.RowIndex].Selected = true;
-        }
+        employeeDgv.Rows[hitTest.RowIndex].Selected = true;
+        employeeDgv.CurrentCell = employeeDgv[hitTest.ColumnIndex, hitTest.RowIndex];
 
         employeeDgv.ContextMenuStrip?.Show(employeeDgv, e.Location);
-
-        return;
       }
-    } 
-    employeeDgv.CurrentCell = null;
+    }
+
   }
 }

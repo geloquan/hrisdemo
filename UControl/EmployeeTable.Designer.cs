@@ -39,6 +39,7 @@ partial class EmployeeTable {
     employeeDgv.AllowUserToDeleteRows = false;
     employeeDgv.AllowUserToResizeColumns = false;
     employeeDgv.AllowUserToResizeRows = false;
+    employeeDgv.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
     employeeDgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
     employeeDgv.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
     employeeDgv.BackgroundColor = SystemColors.ButtonHighlight;
@@ -54,7 +55,7 @@ partial class EmployeeTable {
     dataGridViewCellStyle1.SelectionForeColor = SystemColors.ControlText;
     dataGridViewCellStyle1.WrapMode = DataGridViewTriState.False;
     employeeDgv.DefaultCellStyle = dataGridViewCellStyle1;
-    employeeDgv.Dock = DockStyle.Fill;
+    employeeDgv.EnableHeadersVisualStyles = false;
     employeeDgv.Location = new Point(0, 0);
     employeeDgv.Margin = new Padding(2);
     employeeDgv.MultiSelect = false;
@@ -62,8 +63,10 @@ partial class EmployeeTable {
     employeeDgv.ReadOnly = true;
     employeeDgv.RowHeadersWidth = 62;
     employeeDgv.RowTemplate.Height = 33;
+    employeeDgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
     employeeDgv.Size = new Size(892, 624);
     employeeDgv.TabIndex = 0;
+    employeeDgv.TabStop = false;
     employeeDgv.CellContentClick += employeeDgv_CellContentClick_1;
     // 
     // EmployeeTable

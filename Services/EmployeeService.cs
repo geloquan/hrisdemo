@@ -47,7 +47,7 @@ namespace WinFormsApp2.Services {
       return employee;
     }
 
-    public async Task<Employee> UpdateEmployeeAsync(Employee employee) {
+    public async Task<Employee> UpdateEmployeeAsync(Employee employee, int departmentId = 0) {
       if (employee == null)
         throw new ArgumentNullException(nameof(employee));
 
@@ -55,8 +55,29 @@ namespace WinFormsApp2.Services {
       if (existingEmployee == null)
         return null;
 
+      // Update basic employee fields
       _context.Entry(existingEmployee).CurrentValues.SetValues(employee);
       await _context.SaveChangesAsync();
+
+      // Optional: update department assignment if departmentId is specified
+      if (departmentId > 0) {
+        var empDept = await _context.EmployeeDepartments
+            .FirstOrDefaultAsync(ed => ed.EmployeeId == employee.Id);
+
+        if (empDept != null) {
+          empDept.DepartmentId = departmentId;
+        } else {
+          // Create a new relation if not found
+          empDept = new EmployeeDepartment {
+            EmployeeId = employee.Id,
+            DepartmentId = departmentId
+          };
+          await _context.EmployeeDepartments.AddAsync(empDept);
+        }
+
+        await _context.SaveChangesAsync();
+      }
+
       return existingEmployee;
     }
 

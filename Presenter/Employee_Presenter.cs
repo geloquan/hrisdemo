@@ -35,11 +35,11 @@ namespace WinFormsApp2.Presenter {
       return await _employeeService.CreateEmployeeAsync(employee, departmentId);
     }
 
-    public async Task<Employee> UpdateEmployeeAsync(Employee employee) {
+    public async Task<Employee> UpdateEmployeeAsync(Employee employee, int departmentId = 0) {
       if (employee == null)
         throw new ArgumentNullException(nameof(employee));
 
-      return await _employeeService.UpdateEmployeeAsync(employee);
+      return await _employeeService.UpdateEmployeeAsync(employee, departmentId);
     }
 
     public async Task<bool> DeleteEmployeeAsync(int id) {

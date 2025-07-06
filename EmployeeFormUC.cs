@@ -91,24 +91,35 @@ public partial class EmployeeFormUC : UserControl {
   }
 
   private async void submitEmployeeForm_Click(object sender, EventArgs e) {
-    try {
-      employee.FullName = fullName.Text.Trim();
-      employee.DateOfBirth = dateOfBirth.Value;
-      employee.EmployeeCode = generatedEmployeeCode.Text.Trim();
+    employee.FullName = fullName.Text.Trim();
+    employee.DateOfBirth = dateOfBirth.Value;
+    employee.EmployeeCode = generatedEmployeeCode.Text.Trim();
 
-      departmentId = (int)departmentComboBox.SelectedValue;
+    departmentId = (int)departmentComboBox.SelectedValue;
 
-      Console.WriteLine(departmentId);
+    if (_crud == Crud.Create) {
+      try {
+        await employeePresenter.CreateEmployeeAsync(employee, departmentId);
 
-      await employeePresenter.CreateEmployeeAsync(employee, departmentId);
+        MessageBox.Show("Employee has been added successfully");
+        employee = new Employee();
+        this.Clear();
 
-      MessageBox.Show("Employee has been added successfully");
-      employee = new Employee();
-      this.Clear();
+        EmployeeCreated?.Invoke(this, EventArgs.Empty);
+      } catch (Exception ex) {
+        MessageBox.Show($"Failed to add employee:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+      }
+    } else if (_crud != Crud.Update) {
+      try {
+        await employeePresenter.CreateEmployeeAsync(employee, departmentId);
 
-      EmployeeCreated?.Invoke(this, EventArgs.Empty);
-    } catch (Exception ex) {
-      MessageBox.Show($"Failed to add employee:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        MessageBox.Show("Employee has been updated successfully");
+
+        EmployeeCreated?.Invoke(this, EventArgs.Empty);
+      } catch (Exception ex) {
+        MessageBox.Show($"Failed to add employee:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+      }
+
     }
   }
 
