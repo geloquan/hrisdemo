@@ -1,2 +1,4 @@
 sqlpackage /Action:Export /SourceServerName:"localhost" /SourceDatabaseName:"YourDatabase" /TargetFile:"schema.bacpac"
 sqlpackage /a:Import /sf:"H:\Programming\hrisdemo\db.bacpac" /tsn:"(localdb)\MSSQLLocalDB" /tdn:"hrisdemo"
+
+sqlpackage /Action:Export /SourceServerName:"(localdb)\MSSQLLocalDB" /SourceDatabaseName:"hrisdemo" /TargetFile:"H:\Programming\hrisdemo\db.bacpac"
