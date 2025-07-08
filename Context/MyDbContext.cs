@@ -27,7 +27,7 @@ namespace WinFormsApp2.Context
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=hrisdemo;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=ITSPECIALIST1\\MSSQLSERVER07;Database=hrisdemo;Trusted_Connection=True;");
             }
         }
 

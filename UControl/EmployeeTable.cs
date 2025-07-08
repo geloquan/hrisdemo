@@ -2,13 +2,15 @@
 using WinFormsApp2.Entities;
 using WinFormsApp2.Enums;
 using WinFormsApp2.Presenter;
+using WinFormsApp2.Services;
 using WinFormsApp2.Views;
 using WinFormsApp2.WinForm;
 namespace WinFormsApp2.UControl;
 
-public partial class EmployeeTable : UserControl, IEmployeeView {
+public partial class EmployeeTable : UserControl, IEmployeeView, IDepartmentView {
   private readonly Employee_Presenter employeePresenter;
-  private readonly ContextMenuStrip employeeContextMenu = new ContextMenuStrip();
+    private readonly Department_Presenter departmentPresenter;
+    private readonly ContextMenuStrip employeeContextMenu = new ContextMenuStrip();
   public EmployeeTable(EntityControl entityControl) {
     InitializeComponent();
 
@@ -24,6 +26,7 @@ public partial class EmployeeTable : UserControl, IEmployeeView {
     }
 
     employeePresenter = new Employee_Presenter();
+        departmentPresenter = new Department_Presenter();
   }
 
   private void InitEmployee() {
@@ -46,6 +49,9 @@ public partial class EmployeeTable : UserControl, IEmployeeView {
 
     employeeDgv.Columns.Add("Id", "ID");
     employeeDgv.Columns.Add("Name", "Name");
+
+
+    this.Load += async (sender, e) => await LoadDepartmentDataAsync();
   }
 
   void IEmployeeView.DisplayEmployees(List<EmployeeView> employees) {
@@ -55,6 +61,15 @@ public partial class EmployeeTable : UserControl, IEmployeeView {
       employeeDgv.Rows.Add(emp.EmployeeId, emp.EmployeeFullName, emp.EmployeeDateOfBirth, emp.EmployeeGenerateCode, emp.DepartmentName ?? "NA");
     }
   }
+    void IDepartmentView.DisplayDepartments(List<Department> departments)
+    {
+        employeeDgv.Rows.Clear();
+
+        foreach (var department in departments)
+        {
+            employeeDgv.Rows.Add(department.Id, department.Name);
+        }
+    }
 
   public async Task LoadEmployeeDataAsync() {
     try {
@@ -63,6 +78,17 @@ public partial class EmployeeTable : UserControl, IEmployeeView {
     } finally {
     }
   }
+    public async Task  LoadDepartmentDataAsync()
+    {
+        try
+        {
+            var list = await departmentPresenter.GetDepartmentsAsync();
+            ((IDepartmentView)this).DisplayDepartments(list);
+        } finally
+        {
+
+        }
+    }
 
 
   private void employeeDgv_CellContentClick(object sender, DataGridViewCellEventArgs e) {

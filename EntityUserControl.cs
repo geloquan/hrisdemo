@@ -61,7 +61,7 @@ public partial class EntityUserControl : UserControl {
             case EntityControl.Department:
                 using (var form = new FormTitleLbl(EntityControl.Department, Crud.Create)) {
                     form.employeeRegistrationUc.EmployeeCreated += (s, args) => {
-                        employeeTable.LoadEmployeeDataAsync();
+                        employeeTable.LoadDepartmentDataAsync();
                     };
                     form.ShowDialog(this);
                 }
