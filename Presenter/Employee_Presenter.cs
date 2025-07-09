@@ -35,7 +35,7 @@ namespace WinFormsApp2.Presenter {
       return await _employeeService.CreateEmployeeAsync(employee, departmentId);
     }
 
-    public async Task<Employee> UpdateEmployeeAsync(Employee employee, int departmentId = 0) {
+    public async Task<EmployeeView> UpdateEmployeeAsync(EmployeeView employee, int departmentId = 0) {
       if (employee == null)
         throw new ArgumentNullException(nameof(employee));
 

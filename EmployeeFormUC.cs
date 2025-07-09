@@ -13,6 +13,7 @@ public partial class EmployeeFormUC : UserControl
     int departmentId = 0;
 
     public event EventHandler EmployeeCreated;
+    public event EventHandler DepartmentCreated;
 
     public EmployeeView _employee;
     public Crud _crud;
@@ -100,14 +101,13 @@ public partial class EmployeeFormUC : UserControl
 
     private async void submitEmployeeForm_Click(object sender, EventArgs e)
     {
-        employee.FullName = fullName.Text.Trim();
-        employee.DateOfBirth = dateOfBirth.Value;
-        employee.EmployeeCode = generatedEmployeeCode.Text.Trim();
-
         departmentId = (int)departmentComboBox.SelectedValue;
 
         if (_crud == Crud.Create)
         {
+            employee.FullName = fullName.Text.Trim();
+            employee.DateOfBirth = dateOfBirth.Value;
+            employee.EmployeeCode = generatedEmployeeCode.Text.Trim();
             try
             {
                 await employeePresenter.CreateEmployeeAsync(employee, departmentId);
@@ -125,26 +125,13 @@ public partial class EmployeeFormUC : UserControl
         }
         else if (_crud == Crud.Update)
         {
+            _employee.EmployeeFullName = fullName.Text.Trim();
+            _employee.EmployeeDateOfBirth = dateOfBirth.Value;
+            _employee.EmployeeGenerateCode = generatedEmployeeCode.Text.Trim();
             try
             {
-                employee = await employeePresenter.UpdateEmployeeAsync(employee, departmentId);
+                EmployeeView updatedEmployee = await employeePresenter.UpdateEmployeeAsync(_employee, departmentId);
 
-                if (employee != null)
-                {
-                    MessageBox.Show(
-                        $"Employee has been updated successfully:\n\n" +
-                        $"ID: {employee.Id}\n" +
-                        $"Name: {employee.FullName}\n" +
-                        $"EmployeeCode: {employee.EmployeeCode}\n",
-                        "Update Successful",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information
-                    );
-                }
-                else
-                {
-                    MessageBox.Show("Employee not found or update failed.", "Update Failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
                 MessageBox.Show("Employee has been updated successfully");
 
                 EmployeeCreated?.Invoke(this, EventArgs.Empty);

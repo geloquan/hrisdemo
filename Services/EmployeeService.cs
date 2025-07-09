@@ -56,47 +56,52 @@ namespace WinFormsApp2.Services
             return employee;
         }
 
-        public async Task<Employee> UpdateEmployeeAsync(Employee employee, int departmentId = 0)
+        public async Task<EmployeeView> UpdateEmployeeAsync(EmployeeView employee, int departmentId = 0)
         {
             if (employee == null)
                 throw new ArgumentNullException(nameof(employee));
 
-            var existingEmployee = await _context.Employees.FindAsync(employee.Id);
+            var existingEmployee = await _context.Employees.FindAsync(employee.EmployeeId);
             if (existingEmployee == null)
                 return null;
 
-            _context.Entry(existingEmployee).CurrentValues.SetValues(employee);
+            // Update only the fields that exist in both Employee and EmployeeView
+            _context.Entry(existingEmployee).CurrentValues.SetValues(new
+            {
+                Id = employee.EmployeeId,
+                FullName = employee.EmployeeFullName,
+                EmployeeCode = employee.EmployeeGenerateCode,
+                DateOfBirth = employee.EmployeeDateOfBirth
+            });
+
             await _context.SaveChangesAsync();
 
+            // Handle Department assignment
             if (departmentId > 0)
             {
                 var empDept = await _context.EmployeeDepartments
-                    .FirstOrDefaultAsync(ed => ed.EmployeeId == employee.Id);
+                    .FirstOrDefaultAsync(ed => ed.EmployeeId == employee.EmployeeId);
 
                 if (empDept != null)
                 {
                     if (empDept.DepartmentId != departmentId)
-                    {
                         empDept.DepartmentId = departmentId;
-                    }
                 }
                 else
                 {
-                    // Create a new relation if not found
-                    empDept = new EmployeeDepartment
+                    await _context.EmployeeDepartments.AddAsync(new EmployeeDepartment
                     {
-                        EmployeeId = employee.Id,
+                        EmployeeId = employee.EmployeeId,
                         DepartmentId = departmentId
-                    };
-                    await _context.EmployeeDepartments.AddAsync(empDept);
+                    });
                 }
 
                 await _context.SaveChangesAsync();
             }
 
-            return await _context.Employees
+            return await _context.EmployeeViews
                 .AsNoTracking()
-                .FirstOrDefaultAsync(e => e.Id == employee.Id);
+                .FirstOrDefaultAsync(e => e.EmployeeId == employee.EmployeeId);
         }
 
 
