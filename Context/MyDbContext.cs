@@ -27,6 +27,7 @@ namespace WinFormsApp2.Context
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Server=ITSPECIALIST1\\MSSQLSERVER07;Database=hrisdemo;Trusted_Connection=True;");
             }
         }
@@ -55,6 +56,10 @@ namespace WinFormsApp2.Context
                     .HasColumnType("date")
                     .HasColumnName("date_of_birth");
 
+                entity.Property(e => e.DeleteAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("delete_at");
+
                 entity.Property(e => e.EmployeeCode)
                     .HasMaxLength(50)
                     .IsUnicode(false)
@@ -80,13 +85,13 @@ namespace WinFormsApp2.Context
                     .WithMany(p => p.EmployeeDepartments)
                     .HasForeignKey(d => d.DepartmentId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__employee___depar__2D27B809");
+                    .HasConstraintName("FK__employee___depar__403A8C7D");
 
                 entity.HasOne(d => d.Employee)
                     .WithMany(p => p.EmployeeDepartments)
                     .HasForeignKey(d => d.EmployeeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__employee___emplo__2C3393D0");
+                    .HasConstraintName("FK__employee___emplo__3F466844");
             });
 
             modelBuilder.Entity<EmployeeView>(entity =>
@@ -135,13 +140,13 @@ namespace WinFormsApp2.Context
                     .WithMany(p => p.Tickets)
                     .HasForeignKey(d => d.DepartmentId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ticket__departme__2E1BDC42");
+                    .HasConstraintName("FK__ticket__departme__412EB0B6");
 
                 entity.HasOne(d => d.Employee)
                     .WithMany(p => p.Tickets)
                     .HasForeignKey(d => d.EmployeeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ticket__employee__2F10007B");
+                    .HasConstraintName("FK__ticket__employee__4222D4EF");
             });
 
             OnModelCreatingPartial(modelBuilder);

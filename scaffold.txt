@@ -1,3 +1,5 @@
 ﻿dotnet ef dbcontext scaffold "Server=localhost;Database=hrisdemo;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer --project WinFormsApp2.csproj --startup-project WinFormsApp2.csproj --configuration Debug --context MyDbContext --context-dir Context --output-dir Entities --force --no-build
 
 dotnet ef dbcontext scaffold "Server=(localdb)\MSSQLLocalDB;Database=hrisdemo;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer --project WinFormsApp2.csproj --startup-project WinFormsApp2.csproj --configuration Debug --context MyDbContext --context-dir Context --output-dir Entities --force --no-build
+
+dotnet ef dbcontext scaffold "Server=ITSPECIALIST1\MSSQLSERVER07;Database=hrisdemo;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer --project WinFormsApp2.csproj --startup-project WinFormsApp2.csproj --configuration Debug --context MyDbContext --context-dir Context --output-dir Entities --force --no-build
