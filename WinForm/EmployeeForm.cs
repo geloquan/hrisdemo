@@ -16,6 +16,7 @@ public partial class FormTitleLbl : Form {
         panelMain.Controls.Add(employeeRegistrationUc);
         break;
       case (EntityControl.Department):
+
         break;
       default:
         break;
