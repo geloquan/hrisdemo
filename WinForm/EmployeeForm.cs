@@ -5,6 +5,7 @@ namespace WinFormsApp2.WinForm;
 
 public partial class FormTitleLbl : Form {
   public EmployeeFormUC employeeRegistrationUc { get; private set; }
+  public event EventHandler CloseWindow;
   public FormTitleLbl(EntityControl entityControl, Crud crud, EmployeeView? employee = null) {
     InitializeComponent();
 

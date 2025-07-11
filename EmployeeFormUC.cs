@@ -98,8 +98,9 @@ public partial class EmployeeFormUC : UserControl {
     departmentComboBox.DisplayMember = "Name";
     departmentComboBox.ValueMember = "Id";
     departmentComboBox.DataSource = departments;
-
-    departmentComboBox.SelectedIndex = Math.Max(departmentComboBox.FindString(_employee.DepartmentName), 0);
+    if (_employee is not null) {
+      departmentComboBox.SelectedIndex = Math.Max(departmentComboBox.FindString(_employee.DepartmentName), 0);
+    }
   }
 
   private void Clear( ) {
@@ -150,9 +151,13 @@ public partial class EmployeeFormUC : UserControl {
       }
     } else if (_crud == Crud.Delete) {
       try {
+        bool isSuccess = await employeePresenter.DeleteEmployeeAsync(_employee.EmployeeId);
 
+        MessageBox.Show("Record has been deleted successfully");
 
         EmployeeCreated?.Invoke(this, EventArgs.Empty);
+
+        this.Dispose();
       } catch (Exception ex) {
         MessageBox.Show($"Failed to add employee:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
       }

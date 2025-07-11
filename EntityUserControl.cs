@@ -59,6 +59,7 @@ public partial class EntityUserControl : UserControl {
         using (var form = new FormTitleLbl(EntityControl.Employee, Crud.Update, e._employee)) {
           form.employeeRegistrationUc.EmployeeCreated += (s, args) => {
             employeeTable.LoadEmployeeDataAsync();
+            
           };
           form.ShowDialog(this);
         }
@@ -76,7 +77,10 @@ public partial class EntityUserControl : UserControl {
     switch (this.entityControl) {
       case EntityControl.Employee:
         using (var form = new FormTitleLbl(EntityControl.Employee, Crud.Delete, e._employee)) {
-
+          form.employeeRegistrationUc.EmployeeCreated += (s, args) => {
+            employeeTable.LoadEmployeeDataAsync();
+            form.Dispose();
+          };
           form.ShowDialog(this);
         }
         break;

@@ -69,10 +69,9 @@ namespace WinFormsApp2.Services {
 
       await _context.SaveChangesAsync();
 
-      // Handle Department assignment
       if (departmentId > 0) {
         var empDept = await _context.EmployeeDepartments
-            .FirstOrDefaultAsync(ed => ed.EmployeeId == employee.EmployeeId);
+          .FirstOrDefaultAsync(ed => ed.EmployeeId == employee.EmployeeId);
 
         if (empDept != null) {
           if (empDept.DepartmentId != departmentId)
